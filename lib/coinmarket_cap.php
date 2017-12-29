@@ -48,6 +48,24 @@ class marketData {
 		return $apiResp;
 	} 
 
+	/** 
+	* Get the latest market data for the top ten crypto coins
+	*
+	*/
+	public function getTopTen() {
+
+		$coinPrice = R::getAll(  
+			'SELECT coins.*,pricedata.* FROM coins
+		    INNER JOIN pricedata ON coins.id = pricedata.coin_id
+		    WHERE pricedata.market_rank < 11 
+		    ORDER BY pricedata.timestamp DESC LIMIT 10'
+		);
+
+		if ($coinPrice) {
+			return $coinPrice;
+		}
+	}
+
 	/**
 	* Process the data recieved from the API
 	* 
