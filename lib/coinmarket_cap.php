@@ -14,9 +14,12 @@ class marketData {
 	*/
 	public function __construct()
 	{
-		R::setup( 
-			'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS 
-		);
+		if(!R::testConnection())
+		{
+			R::setup( 
+				'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS 
+			);
+		}
 	}
 
 	/**
@@ -54,9 +57,41 @@ class marketData {
 	{
 		if (is_array( $tickerData )) {
 			foreach ( $tickerData as $tickerElement ) {
-				$this->_checkUnit( $tickerElement );
+				$coinId = $this->_checkUnit( $tickerElement );
+				$this->_storePrice( $coinId, $tickerElement );
 			}
 		}
+	}
+
+	/**
+	* Store the price and volume data for a coin
+	*
+	* @param integer $coinId
+	* @param object $marketData
+	*/
+	protected function _storePrice( $coinId, $marketData )
+	{
+		if (is_numeric($coinId) && is_object($marketData)) {
+			$marketObj = R::dispense("pricedata");
+			$marketObj->coin_id = $coinId;		
+			$marketObj->market_rank = $marketData->rank;
+			$marketObj->price_usd = $marketData->price_usd;
+			$marketObj->price_btc = $marketData->price_btc;
+			$marketObj->daily_volume = $marketData->{'24h_volume_usd'};
+			$marketObj->usd_marketcap = $marketData->market_cap_usd;
+			$marketObj->current_supply = $marketData->available_supply;
+			$marketObj->total_supply = $marketData->total_supply;
+			$marketObj->max_supply = $marketData->max_supply;
+			$marketObj->percent_change_1h = $marketData->percent_change_1h;
+			$marketObj->percent_change_24h = $marketData->percent_change_24h;
+			$marketObj->percent_change_7d = $marketData->percent_change_7d;
+
+			$marketObj->timestamp = time();
+
+			R::store( $marketObj );
+
+			return $marketObj->export();
+		}			
 	}
 
 	/**
@@ -64,6 +99,7 @@ class marketData {
 	* add it to the coins table
 	*
 	* @param object $tickerElement
+	* @return integer 
 	*/ 
 	protected function _checkUnit( $tickerElement ) 
 	{
@@ -86,6 +122,7 @@ class marketData {
 			return $coinObj->export();						
 		}
 
+		return $cryptoCoin->id;
 	}
 
 	/**
