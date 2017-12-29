@@ -2,10 +2,12 @@
 /**
 * Application route deifinitions for Klien Framework
 **/
-$klein->respond('GET', '/update-all', function () 
+$klein->respond('GET', '/update', function () 
 {
 	$cryptoApp = new \marketCap\marketData();
-	$apiResp = $cryptoApp->updateAll();		
+	$apiResp = $cryptoApp->getTicker();		
 
-    return json_encode($apiResp);
+    return $apiResp;
 });
+
+$klein->dispatch();
