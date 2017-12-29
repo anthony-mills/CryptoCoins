@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 28, 2017 at 11:38 PM
+-- Generation Time: Dec 29, 2017 at 01:35 PM
 -- Server version: 5.7.20-0ubuntu0.16.04.1
 -- PHP Version: 7.1.12-3+ubuntu16.04.1+deb.sury.org+1
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `cryptodata`
+-- Database: `cryptocoins`
 --
 
 -- --------------------------------------------------------
