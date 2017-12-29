@@ -29,5 +29,32 @@ $klein->respond('GET', '/top-ten', function ()
     return json_encode($apiResp);
 });
 
+/**
+* Route to get the bigggest winners of a given time frame
+*/
+$klein->respond('/daily-winners/', function ($request) {
+	$cryptoApp = new \marketCap\marketData();
+	return $cryptoApp->getBiggestMovers(1);	
+});
+
+$klein->respond('/daily-winners/[:period]', function ($request) {
+	$cryptoApp = new \marketCap\marketData();
+	return $cryptoApp->getBiggestMovers(1, $request->period);	
+});
+
+/**
+* Route to get the bigggest losers of the last 24 hours
+*/
+$klein->respond('/daily-losers/', function ($request) {
+	$cryptoApp = new \marketCap\marketData();
+	return $cryptoApp->getBiggestMovers(0);	
+});
+
+$klein->respond('/daily-losers/[:period]', function ($request) {
+	$cryptoApp = new \marketCap\marketData();
+	return $cryptoApp->getBiggestMovers(0, $request->period);	
+});
+
+
 $klein->dispatch();
 die();

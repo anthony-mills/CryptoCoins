@@ -49,6 +49,59 @@ class marketData {
 	} 
 
 	/** 
+	* Get top ten daily winners
+	*
+	* 1 = Biggest winners, 0 = biggest losers
+	*
+	* @param integer $moveDirection
+	* @param string $timePeriod
+	* @param integer $resultLimit 
+	*/
+	public function getBiggestMovers( 	
+										$moveDirection = 1,
+										$timePeriod='day',
+										$resultLimit = 10
+									) 
+	{
+
+		switch ($timePeriod) {
+			case 'hour':
+				$dbField = 'pricedata.percent_change_1h';
+			break;
+
+			case 'week':
+				$dbField = 'pricedata.percent_change_7d';
+			break;
+
+			default:
+				$dbField = 'pricedata.percent_change_24h';
+			break;
+		}
+
+		if ( $moveDirection == 1 ) {
+			$sqlWhere = 'WHERE ' . $dbField . ' > 0';
+			$sqlOrder = 'ORDER BY pricedata.timestamp, ' . $dbField . ' DESC ';
+		} else {
+			$sqlWhere = 'WHERE ' . $dbField . ' < 1';
+			$sqlOrder = 'ORDER BY pricedata.timestamp DESC, ' . $dbField . ' ASC ';			
+		}
+
+		$coinPrice = R::getAll(  
+			'SELECT coins.*,pricedata.* FROM coins
+		    INNER JOIN pricedata ON coins.id = pricedata.coin_id ' .
+		    $sqlWhere . ' ' . $sqlOrder . 'LIMIT ' . $resultLimit
+		);
+
+		if ($coinPrice) {
+			$apiResp = array(
+							'data' => $coinPrice, 
+							'error' => null
+						);		
+			return json_encode($apiResp);		
+		}	
+	}
+
+	/** 
 	* Get the latest market data for the top ten crypto coins
 	*
 	*/
