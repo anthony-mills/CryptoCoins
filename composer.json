@@ -1,5 +1,6 @@
 {
     "require": {
         "gabordemooij/redbean": "dev-master",
+       	"klein/klein": "dev-master"
     }
 }
