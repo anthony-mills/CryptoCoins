@@ -11,6 +11,10 @@ Mostly for the purpose of historical data and trend analysis. Once you have your
 
 /update - Gets the latest market data and stores the currency price information to the pricedata table.
 
+/daily-winners/{hour|day|week} - Get the top ten performing currencies for a given time period.
+
+/daily-losers/{hour|day|week} Get the ten worst performing currencies for a given time period.
+
 # Application Setup:
 
 Create a MySQL database for the application to use, and import the structure from the sql/crytocoins.sql file.
