@@ -2,6 +2,11 @@
 
 Simple PHP script for collecting crypto currency data from the [coinmarketcap API](https://coinmarketcap.com/api/) and storing in a MySQL database for further analysis.
 
+# Why not just use the API directly?:
+Since the endpoints return the data as JSON you may be asking yourself, what is the point? Why not just cut out the middle man and use the API directly?
+
+Mostly for the purpose of historical data and trend analysis. Once you have your MySQL database full of data, you have flexibility to process how you see fit. 
+
 # Current Routes:
 
 /update - Gets the latest market data and stores the currency price information to the pricedata table.
