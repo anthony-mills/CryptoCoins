@@ -55,6 +55,16 @@ $klein->respond('/daily-losers/[:period]', function ($request) {
 	return $cryptoApp->getBiggestMovers(0, $request->period);	
 });
 
+/**
+* Get the data for a currency by its ticker symbol
+*
+*/
+$klein->respond('/currency/[:symbol]', function ($request) {
+
+	$cryptoApp = new \marketCap\marketData();
+
+	return $cryptoApp->getCryptoBySymbol(strtoupper($request->symbol));	
+});
 
 $klein->dispatch();
 die();

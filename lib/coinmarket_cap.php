@@ -102,6 +102,29 @@ class marketData {
 	}
 
 	/** 
+	* Get the details for a currency
+	*
+	* @param string $cryptoSymbol
+	*/
+	public function getCryptoBySymbol( $cryptoSymbol ) {
+		$timeCutoff = time() - strtotime("-1 week");
+		$coinData = R::findOne( 'coins', ' symbol = ?', [$cryptoSymbol] );
+
+		if ($coinData) {
+			$priceData = R::getAll( 'SELECT * FROM pricedata WHERE coin_id = ' . $coinData->id . ' AND timestamp > ' . $timeCutoff);
+
+			$coinInfo = $coinData->export();
+
+			if ($priceData) {
+
+				$coinInfo['market_data'] = $priceData;
+			}
+
+			return json_encode($coinInfo);
+		}		
+	} 
+
+	/** 
 	* Get the latest market data for the top ten crypto coins
 	*
 	*/
