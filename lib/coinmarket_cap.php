@@ -80,7 +80,7 @@ class marketData {
 
 		if ( $moveDirection == 1 ) {
 			$sqlWhere = 'WHERE ' . $dbField . ' > 0';
-			$sqlOrder = 'ORDER BY pricedata.timestamp, ' . $dbField . ' DESC ';
+			$sqlOrder = 'ORDER BY pricedata.timestamp DESC, ' . $dbField . ' DESC ';
 		} else {
 			$sqlWhere = 'WHERE ' . $dbField . ' < 1';
 			$sqlOrder = 'ORDER BY pricedata.timestamp DESC, ' . $dbField . ' ASC ';			
@@ -89,7 +89,7 @@ class marketData {
 		$coinPrice = R::getAll(  
 			'SELECT coins.*,pricedata.* FROM coins
 		    INNER JOIN pricedata ON coins.id = pricedata.coin_id ' .
-		    $sqlWhere . ' ' . $sqlOrder . 'LIMIT ' . $resultLimit
+		    $sqlWhere . ' ' . $sqlOrder . ' LIMIT ' . $resultLimit
 		);
 
 		if ($coinPrice) {
@@ -108,10 +108,11 @@ class marketData {
 	*/
 	public function getCryptoBySymbol( $cryptoSymbol ) {
 		$timeCutoff = time() - strtotime("-1 week");
+
 		$coinData = R::findOne( 'coins', ' symbol = ?', [$cryptoSymbol] );
 
 		if ($coinData) {
-			$priceData = R::getAll( 'SELECT * FROM pricedata WHERE coin_id = ' . $coinData->id . ' AND timestamp > ' . $timeCutoff);
+			$priceData = R::getAll( 'SELECT * FROM pricedata WHERE coin_id = ' . $coinData->id . ' AND timestamp > ' . $timeCutoff . ' ORDER BY timestamp ASC');
 
 			$coinInfo = $coinData->export();
 
