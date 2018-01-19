@@ -32,12 +32,12 @@ $klein->respond('GET', '/top-ten', function ()
 /**
 * Route to get the bigggest winners of a given time frame
 */
-$klein->respond('/daily-winners/', function ($request) {
+$klein->respond('/winners/', function ($request) {
 	$cryptoApp = new \marketCap\marketData();
 	return $cryptoApp->getBiggestMovers(1);	
 });
 
-$klein->respond('/daily-winners/[:period]', function ($request) {
+$klein->respond('/winners/[:period]', function ($request) {
 	$cryptoApp = new \marketCap\marketData();
 	return $cryptoApp->getBiggestMovers(1, $request->period);	
 });
@@ -45,12 +45,12 @@ $klein->respond('/daily-winners/[:period]', function ($request) {
 /**
 * Route to get the bigggest losers of the last 24 hours
 */
-$klein->respond('/daily-losers/', function ($request) {
+$klein->respond('/losers/', function ($request) {
 	$cryptoApp = new \marketCap\marketData();
 	return $cryptoApp->getBiggestMovers(0);	
 });
 
-$klein->respond('/daily-losers/[:period]', function ($request) {
+$klein->respond('/losers/[:period]', function ($request) {
 	$cryptoApp = new \marketCap\marketData();
 	return $cryptoApp->getBiggestMovers(0, $request->period);	
 });
