@@ -43,7 +43,7 @@ $klein->respond('/winners/[:period]', function ($request) {
 });
 
 /**
-* Route to get the bigggest losers of the last 24 hours
+* Route to get the biggest losers of the last 24 hours
 */
 $klein->respond('/losers/', function ($request) {
 	$cryptoApp = new \marketCap\marketData();
