@@ -135,7 +135,7 @@ class marketData {
 			'SELECT coins.*,pricedata.* FROM coins
 		    INNER JOIN pricedata ON coins.id = pricedata.coin_id
 		    WHERE pricedata.market_rank < 11 
-		    ORDER BY pricedata.timestamp, pricedata.market_rank DESC  LIMIT 10'
+		    ORDER BY pricedata.timestamp DESC, pricedata.market_rank DESC  LIMIT 10'
 		);
 
 		if ($coinPrice) {
