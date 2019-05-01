@@ -107,7 +107,7 @@ class marketData {
 	* @param string $cryptoSymbol
 	*/
 	public function getCryptoBySymbol( $cryptoSymbol) {
-		$timeCutoff = time() - strtotime("-1 week");
+		$timeCutoff = strtotime("-1 week");
 
 		$coinData = R::findOne( 'coins', ' symbol = ?', [$cryptoSymbol] );
 
